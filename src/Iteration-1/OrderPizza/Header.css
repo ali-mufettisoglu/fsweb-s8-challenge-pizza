@@ -1,0 +1,38 @@
+.head {
+    background-color:#CE2829 ;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.logo {
+    background-image: url("Assets/Iteration-1-assets/logo.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    height:50px;
+    width:100%;
+    margin-top: 2%;
+}
+
+.pages {
+    color:white;
+    font-size: 1em;
+    margin: 0 auto;
+    margin-bottom: 2%;
+}
+
+.prices {
+    display: flex;
+    justify-content:space-between;
+}
+
+.prices > h3 {
+    position: relative;
+    bottom:20px;
+}
+
+.prices > div {
+    width:30%;
+    display:flex;
+    justify-content: space-between;
+}

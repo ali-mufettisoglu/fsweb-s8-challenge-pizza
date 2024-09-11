@@ -1,0 +1,33 @@
+section > div{
+    display:flex;
+    flex-direction: column;
+    gap:25px;
+}
+.middle-up {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+.middle-down {
+    margin-top: 50px;
+}
+.middle-down > section {
+
+}
+textarea {
+    width: 100%;
+    height:50px;
+}
+.button {
+    border-radius: 10%;
+    background:#FDC913;
+    cursor: pointer;
+}
+.bottom-siparis {
+    display: flex;
+    justify-content: space-between;
+}
+.bottom-siparis-toplam {
+    display: flex;
+    flex-direction: column;
+}

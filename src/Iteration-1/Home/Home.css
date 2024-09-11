@@ -1,0 +1,7 @@
+.home {
+    background-image: url("Interfaces/Iteration-1/Home.png");
+    background-size: cover;
+    background-position:  center top; 
+    width:100%;
+    height:800px;
+}
