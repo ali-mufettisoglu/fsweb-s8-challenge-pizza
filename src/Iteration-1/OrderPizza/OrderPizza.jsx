@@ -67,7 +67,7 @@ export default function OrderPizza() {
   };
   const checkBox = malzemelerList.map((item) => (
     <span key={item} >
-      <input type="checkbox" id={item} value={item} onChange={handleChange} />
+      <input type="checkbox" id={item} value={item} onChange={handleChange} data-testid={item}/>
       <label htmlFor={item}>
         {item.charAt(0).toUpperCase() + "" + item.slice(1, item.length)}
       </label>
@@ -76,12 +76,12 @@ export default function OrderPizza() {
 
   const select = () => {
     return (
-      <select name="hamur" id="hamur" onChange={handleChange}>
+      <select name="hamur" id="hamur" onChange={handleChange} data-testid="select">
         <option disabled selected value="">
           Hamur-Kalınlığı
         </option>
         {boyutList.map((item) => (
-          <option key={item} value={item}>
+          <option key={item} value={item} >
             {item.charAt(0).toUpperCase() + "" + item.slice(1, item.length)}
           </option>
         ))}
@@ -97,6 +97,7 @@ export default function OrderPizza() {
         id={item}
         value={item}
         onChange={handleChange}
+        data-testid={item+"radio"}
       />
       <label htmlFor={item}>{item}</label>
     </div>
@@ -175,6 +176,7 @@ export default function OrderPizza() {
           name="siparisNotu"
           placeholder="Siparişine eklemek istediğin bir not var mı?"
           onChange={handleChange}
+          data-testid="siparisNotu"
         ></textarea>
         <br />
         <br />
@@ -201,7 +203,7 @@ export default function OrderPizza() {
             Toplam <span style={{ float: "right" }}>{toplamFiyat} ₺</span>
           </span>
           <br />
-          <button className="button" onClick={handleSubmit}>
+          <button className="button" onClick={handleSubmit} data-testid="button">
             Sipariş Ver
           </button>
         </div>
