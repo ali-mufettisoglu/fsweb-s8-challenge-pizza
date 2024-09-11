@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-
-import RadioButton from "./RadioButton";
-import SelectOption from "./SelectOption";
-import Checkbox from "./Checkbox";
 import Header from "./Header";
 import "./OrderPizza.css";
 import axios from "axios";
@@ -16,6 +12,24 @@ export default function OrderPizza() {
   const [malzemelerFiyat, setmalzemelerFiyat] = useState(0);
   const [hamurTipi, setHamurTipi] = useState("");
   const [boyut, setBoyut] = useState("");
+
+  const malzemelerList = [
+    "pepperoni",
+    "sosis",
+    "kanada Jambonu",
+    "tavuk Izgara",
+    "soğan",
+    "domates",
+    "mısır",
+    "sucuk",
+    "jalepeno",
+    "sarımsak",
+    "biber",
+    "ananas",
+    "kabak",
+  ];
+
+  const boyutList = ["Küçük", "Orta", "Büyük"];
 
   const { push } = useHistory();
 
@@ -51,6 +65,42 @@ export default function OrderPizza() {
     }
     setSiparisSayisi(siparisSayisi - 1);
   };
+  const checkBox = malzemelerList.map((item) => (
+    <span key={item} >
+      <input type="checkbox" id={item} value={item} onChange={handleChange} />
+      <label htmlFor={item}>
+        {item.charAt(0).toUpperCase() + "" + item.slice(1, item.length)}
+      </label>
+    </span>
+  ));
+
+  const select = () => {
+    return (
+      <select name="hamur" id="hamur" onChange={handleChange}>
+        <option disabled selected value="">
+          Hamur-Kalınlığı
+        </option>
+        {boyutList.map((item) => (
+          <option key={item} value={item}>
+            {item.charAt(0).toUpperCase() + "" + item.slice(1, item.length)}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
+  const radioButtons = boyutList.map((item) => (
+    <div key={item}>
+      <input
+        type="radio"
+        name="boyut"
+        id={item}
+        value={item}
+        onChange={handleChange}
+      />
+      <label htmlFor={item}>{item}</label>
+    </div>
+  ));
   const handleSubmit = () => {
     if (
       siparisSayisi === 0 ||
@@ -103,47 +153,20 @@ export default function OrderPizza() {
           <h2>
             Boyut Seç <span style={{ color: "red" }}>*</span>
           </h2>
-          <div>
-            <RadioButton id={"kucuk"} value={"Küçük"} onChange={handleChange} />
-            <RadioButton id={"orta"} value={"Orta"} onChange={handleChange} />
-            <RadioButton id={"Büyük"} value={"Büyük"} onChange={handleChange} />
-          </div>
+          <div> {radioButtons}</div>
         </section>
         <section>
-          <h2 htmlFor="hamur">
+          <h2>
             {" "}
             Hamur Seç <span style={{ color: "red" }}>*</span>
           </h2>
-          <div>
-            <select name="hamur" id="hamur" onChange={handleChange}>
-              <option disabled selected value="">
-                Hamur-Kalınlığı
-              </option>
-              <SelectOption id={"kucuk"} value={"Küçük"} />
-              <SelectOption id={"orta"} value={"Orta"} />
-              <SelectOption id={"Büyük"} value={"Büyük"} />
-            </select>
-          </div>
+          <div>{select()}</div>
         </section>
       </div>
       <div className="middle-down">
         <h2>Ek Malzemeler</h2>
         <p>En fazla 10 malzeme seçebilirsiniz. 5₺</p>
-        <section>
-          <Checkbox id="pepperoni" onChange={handleChange} />
-          <Checkbox id="sosis" onChange={handleChange} />
-          <Checkbox id="kanada Jambonu" onChange={handleChange} />
-          <Checkbox id="tavuk Izgara" onChange={handleChange} />
-          <Checkbox id="soğan" onChange={handleChange} />
-          <Checkbox id="domates" onChange={handleChange} />
-          <Checkbox id="mısır" onChange={handleChange} />
-          <Checkbox id="sucuk" onChange={handleChange} />
-          <Checkbox id="jalepeno" onChange={handleChange} />
-          <Checkbox id="sarımsak" onChange={handleChange} />
-          <Checkbox id="biber" onChange={handleChange} />
-          <Checkbox id="ananas" onChange={handleChange} />
-          <Checkbox id="kabak" onChange={handleChange} />
-        </section>
+        <section>{checkBox}</section>
       </div>
       <div className="bottom">
         <h2>Sipariş Notu</h2>
@@ -163,7 +186,7 @@ export default function OrderPizza() {
           <button className="button" onClick={increment}>
             +
           </button>
-          <span>   {siparisSayisi}   </span>
+          <span> {siparisSayisi} </span>
           <button className="button" onClick={decrement}>
             -
           </button>

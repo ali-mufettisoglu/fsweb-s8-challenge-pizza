@@ -8,11 +8,15 @@ section > div{
     justify-content: space-between;
     margin-top: 50px;
 }
+
 .middle-down {
     margin-top: 50px;
 }
 .middle-down > section {
-
+    width: 100%;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 textarea {
     width: 100%;
