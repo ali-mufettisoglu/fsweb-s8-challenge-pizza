@@ -24,13 +24,15 @@ const initialForm = {
   siparisNotu: "",
   malzemelerFiyat: 0,
   toplamFiyat: 0,
+  adet: 0
 };
 
 export default function OrderPizza() {
-  const [siparisSayisi, setSiparisSayisi] = useState(1);
+  const [siparisSayisi, setSiparisSayisi] = useState(0);
   const [toplamFiyat, setToplamFiyat] = useState(0);
   const [malzemeler, setmalzemeler] = useState([]);
   const [malzemelerFiyat, setmalzemelerFiyat] = useState(0);
+  const [hizliTeslimat, setHizliTeslimat] = useState(0);
 
   const [form, setForm] = useState(initialForm);
 
@@ -39,6 +41,7 @@ export default function OrderPizza() {
     checkbox: false,
     boyut: false,
     hamur: false,
+    adet: false
   });
 
   const malzemelerList = [
@@ -67,7 +70,8 @@ export default function OrderPizza() {
       form.malzemeler.length < 4 ||
       form.malzemeler.length > 10 ||
       form.hamur === "" ||
-      form.boyut === ""
+      form.boyut === "" ||
+      form.adet === 0
     ) {
       setIsValid(false);
     } else {
@@ -76,13 +80,14 @@ export default function OrderPizza() {
   }, [form]);
 
   useEffect(() => {
-    setToplamFiyat(85.5 * siparisSayisi + malzemelerFiyat);
+    setToplamFiyat(85.5 * siparisSayisi + malzemelerFiyat + hizliTeslimat);
     setForm({
       ...form,
+      ["adet"]:siparisSayisi,
       ["malzemelerFiyat"]: malzemelerFiyat,
-      ["toplamFiyat"]: 85.5 * siparisSayisi + malzemelerFiyat,
+      ["toplamFiyat"]: 85.5 * siparisSayisi + malzemelerFiyat + hizliTeslimat,
     });
-  }, [malzemelerFiyat, siparisSayisi]);
+  }, [malzemelerFiyat, siparisSayisi, hizliTeslimat]);
 
   useEffect(() => {
     setForm({ ...form, ["malzemeler"]: malzemeler });
@@ -90,7 +95,7 @@ export default function OrderPizza() {
 
   const handleChange = (event) => {
     const { type, name, value, checked } = event.target;
-    if (type === "checkbox") {
+    if (name === "checkbox") {
       if (checked) {
         setmalzemeler([...malzemeler, value]);
         setmalzemelerFiyat(malzemelerFiyat + 5);
@@ -98,6 +103,12 @@ export default function OrderPizza() {
         const arr = malzemeler.filter((item) => item !== value);
         setmalzemeler(arr);
         setmalzemelerFiyat(malzemelerFiyat - 5);
+      }
+    } else if(name === "teslimat"){
+      if(checked) {
+        setHizliTeslimat(hizliTeslimat + 50)
+      } else {
+        setHizliTeslimat(hizliTeslimat - 50);
       }
     } else {
       setForm({ ...form, [name]: value });
@@ -136,101 +147,109 @@ export default function OrderPizza() {
     <Form onSubmit={handleSubmit}>
       <Header />
       <div className="page">
-      <h6>Position Absolute Acı Pizza</h6>
-      <div className="prices">
-        <h4>85.50₺</h4>
-        <div>
-          <FormText>4.9</FormText>
-          <FormText>(200)</FormText>
+        <h6>Position Absolute Acı Pizza</h6>
+        <div className="prices">
+          <h4>85.50₺</h4>
+          <div>
+            <FormText>4.9</FormText>
+            <FormText>(200)</FormText>
+          </div>
         </div>
-      </div>
-      <FormText>
-        Frontend Dev olarak hala position:absolute kullanıyorsan bu çok acı
-        pizza tam sana göre. Pizza,domates,peynir ve genellikle çeşitli diğer
-        malzemelerle kaplanmış, daha sonra geleneksel olarak odun ateşinde bir
-        fırında yüksek sıcaklıkta pişirilen, genellikle yuvarlak, düzleştirilmiş
-        mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir
-        yemektir... Küçük bir pizzaya bazen pizzetta denir.
-      </FormText>
-      <div className="middle-up">
-        <section>
-          <h6>
-            Boyut Seç <span style={{ color: "red" }}>*</span>
-          </h6>
-          <div>
-            <Boyut
-              list={boyutList}
+        <FormText>
+          Frontend Dev olarak hala position:absolute kullanıyorsan bu çok acı
+          pizza tam sana göre. Pizza,domates,peynir ve genellikle çeşitli diğer
+          malzemelerle kaplanmış, daha sonra geleneksel olarak odun ateşinde bir
+          fırında yüksek sıcaklıkta pişirilen, genellikle yuvarlak,
+          düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli
+          lezzetli bir yemektir... Küçük bir pizzaya bazen pizzetta denir.
+        </FormText>
+        <div className="middle-up">
+          <section>
+            <h6>
+              Boyut Seç <span style={{ color: "red" }}>*</span>
+            </h6>
+            <div>
+              <Boyut
+                list={boyutList}
+                onChange={handleChange}
+                error={errors.boyut}
+              />
+            </div>
+          </section>
+          <section>
+            <h6>
+              {" "}
+              Hamur Seç <span style={{ color: "red" }}>*</span>
+            </h6>
+            <div>
+              <HamurTipi
+                hamurTipi={hamurTipi}
+                onChange={handleChange}
+                error={errors.hamur}
+              />
+            </div>
+          </section>
+        </div>
+        <div className="middle-down">
+          <h6>Ek Malzemeler</h6>
+          <FormText>En az 4, en fazla 10 malzeme seçebilirsiniz. 5₺</FormText>
+          <h6></h6>
+          <div className="middle-down-mlz">
+            <Malzemeler
+              malzemeler={malzemelerList}
               onChange={handleChange}
-              error={errors.boyut}
+              error={errors.checkbox}
             />
           </div>
-        </section>
-        <section>
-          <h6>
-            {" "}
-            Hamur Seç <span style={{ color: "red" }}>*</span>
-          </h6>
-          <div>
-            <HamurTipi
-              hamurTipi={hamurTipi}
-              onChange={handleChange}
-              error={errors.hamur}
-            />
-          </div>
-        </section>
-      </div>
-      <div className="middle-down">
-        <h6>Ek Malzemeler</h6>
-        <FormText>En az 4, en fazla 10 malzeme seçebilirsiniz. 5₺</FormText>
-        <h6></h6>
-        <div className="middle-down-mlz">
-          <Malzemeler
-            malzemeler={malzemelerList}
+        </div>
+        <br />
+        <br />
+        <div>
+          <h6>Sipariş Notu</h6>
+          <input
+            className="form-control form-control-lg"
+            name="siparisNotu"
+            placeholder="Siparişine eklemek istediğin bir not var mı?"
             onChange={handleChange}
-            error={errors.checkbox}
+            data-testid="siparisNotu"
           />
-        </div>
-      </div>
-      <br />
-      <br />
-      <div>
-        <h6>Sipariş Notu</h6>
-        <input
-          className="form-control form-control-lg"
-          name="siparisNotu"
-          placeholder="Siparişine eklemek istediğin bir not var mı?"
-          onChange={handleChange}
-          data-testid="siparisNotu"
-        />
-        <br />
-        <hr />
-        <br />
-      </div>
-      <div className="bottom-siparis">
-        <div>
-          <Button color="warning" type="button" onClick={increment}>
-            +
-          </Button>
-          <span> {siparisSayisi} </span>
-          <Button color="warning" type="button" onClick={decrement}>
-            -
-          </Button>
-        </div>
-        <div className="bottom-siparis-toplam">
-          <h6>Sipariş Toplamı</h6>
-          <span>
-            Seçimler <span style={{ float: "right" }}>{malzemelerFiyat} ₺</span>
-          </span>
           <br />
-          <span>
-            Toplam <span style={{ float: "right" }}>{toplamFiyat} ₺</span>
-          </span>
           <br />
-          <Button color="warning" data-testid="button" disabled={!isValid}>
-            Sipariş Ver
-          </Button>
+          <div>
+          <h6>Hızlı Teslimat ? (50₺)</h6>
+          <Input type="checkbox" name="teslimat" id="hizli-teslimat"  onChange={handleChange}/>
+          <span htmlFor="teslimat"> Evet</span>
+          </div>
+          <br />
+          <hr />
+          <br />
         </div>
-      </div>
+        <div className="bottom-siparis">
+          <div>
+            <Button color="warning" type="button" onClick={increment}>
+              +
+            </Button>
+            <span> {siparisSayisi} </span>
+            <Button color="warning" type="button" onClick={decrement}>
+              -
+            </Button>
+          </div>
+          <div className="bottom-siparis-toplam">
+            <h6>Sipariş Toplamı</h6>
+            <span>
+              Seçimler{" "}
+              <span style={{ float: "right" }}>{malzemelerFiyat} ₺</span>
+            </span>
+            <br />
+            <span>
+              Toplam <span style={{ float: "right" }}>{toplamFiyat} ₺</span>
+            </span>
+            <br />
+            <Button color="warning" data-testid="button" disabled={!isValid}>
+              Sipariş Ver
+            </Button>
+          </div>
+        </div>
       </div>
     </Form>
   );

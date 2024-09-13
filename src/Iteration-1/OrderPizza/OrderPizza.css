@@ -62,3 +62,7 @@ section > div{
     display: flex;
     flex-direction: column;
 }
+
+#hizli-teslimat :focus{
+    background: green;
+}
