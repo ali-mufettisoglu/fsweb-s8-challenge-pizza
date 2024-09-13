@@ -1,7 +1,29 @@
+.page {
+    margin-top: 2vh;
+    margin-left: 50vh;
+    margin-right: 50vh;
+}
+
+.prices {
+    display: flex;
+    justify-content:space-between;
+}
+
+.prices > h3 {
+    position: relative;
+    bottom:20px;
+}
+
+.prices > div {
+    width:30%;
+    display:flex;
+    justify-content: space-between;
+}
+
 section > div{
     display:flex;
     flex-direction: column;
-    gap:25px;
+    gap:2px;
 }
 .middle-up {
     display: flex;
@@ -13,14 +35,19 @@ section > div{
     margin-top: 50px;
 }
 .middle-down > section {
-    width: 100%;
+    border:solid red;
     display:flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    gap: 2vh;
 }
-textarea {
-    width: 100%;
-    height:50px;
+.middle-down-mlz{
+    display:flex;
+    flex-wrap: wrap;
+}
+#checkbox {    
+    display: flex;
+    width: 33%;
 }
 .button {
     border-radius: 10%;

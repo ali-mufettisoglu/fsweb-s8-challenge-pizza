@@ -6,5 +6,7 @@ export default function Home() {
     const handleClick = () => {
         push("/orderpizza");
     }
-    return <div className="home" onClick={handleClick}/>
+    return    <div onClick={handleClick} >
+      <img id="home" src="Interfaces/Iteration-1/Home.png"/>
+    </div>
 }

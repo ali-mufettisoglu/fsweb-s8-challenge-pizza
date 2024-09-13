@@ -5,6 +5,7 @@ import OrderPizza from "./Iteration-1/OrderPizza/OrderPizza";
 import Home from "./Iteration-1/Home/Home";
 import Success from "./Iteration-1/Success/Success";
 import { Switch,Route } from "react-router-dom/cjs/react-router-dom.min";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

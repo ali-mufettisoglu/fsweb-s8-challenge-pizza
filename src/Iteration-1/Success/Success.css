@@ -1,7 +1,4 @@
-.success {
-    background-image: url("Interfaces/Iteration-1/Success.png");
-    background-size: cover;
-    background-position:  center top; 
-    width:100%;
-    height:800px;
-}
+
+#success{
+    max-width: 100%;
+}   
