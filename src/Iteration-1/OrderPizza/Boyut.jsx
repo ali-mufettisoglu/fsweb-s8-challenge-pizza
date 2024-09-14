@@ -18,7 +18,7 @@ export default function Boyut(props) {
             name="boyut"
             value={item}
             onChange={onChange}
-            data-testid={item + "radio"}
+            data-testid={item + "-radio"}
             invalid={error}
           />
           <Label htmlFor={item}>{item}</Label>

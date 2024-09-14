@@ -1,7 +1,7 @@
-.page {
-    margin-top: 2vh;
-    margin-left: 50vh;
-    margin-right: 50vh;
+.content {
+   max-width: 640px;
+   margin: 0 auto;
+   padding-top: 1rem;
 }
 
 .prices {
@@ -61,8 +61,21 @@ section > div{
 .bottom-siparis-toplam {
     display: flex;
     flex-direction: column;
+    gap:9px;
 }
 
 #hizli-teslimat :focus{
     background: green;
 }
+.teslimat {
+    padding: 1.5rem 0 0.5rem 0;
+}
+.siparis-notu {
+    padding-top:1rem;
+}
+
+@media (max-width: 480px) {
+    content {
+      
+    }
+  }
